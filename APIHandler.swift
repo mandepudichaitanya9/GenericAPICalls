@@ -11,7 +11,7 @@ import Alamofire
 
 class APIHandler:NSObject {
     
-    func apiPostCall( handler: @escaping (_ result: NSDictionary) -> (Void) ) {
+    func apiPostCall( handler: @escaping () -> (Void) ) {
         
     let url = "https://trains.p.rapidapi.com/"
     let headers:HTTPHeaders = [
@@ -28,6 +28,9 @@ class APIHandler:NSObject {
         case .success(_):
             do {
                 if let data = response.data {
+                   let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    print(json)
+                    // how to get value into json key using this following steps
                     if let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [[String:Any]] {
                         for item in json {
                             if let name = item["data"] as? [String:Any] {
